@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage{comment}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{changepage}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{ listings}
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{The project of Computational Methods in Physics}
+\author{Xu Jue}
+\date{\today}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Calculate the magnetic field }
+
+\indent
+
+We can get the magnetic field which is generared by a coil by integrating
+\begin{equation}
+    B_{x0}(x,y,z)=\int_0^{2 \pi} \frac{Rzcos \phi}{(x^2+y^2+z^2+R^2-2xRcos \phi-2yRsin \phi)^{3/2}} d\phi
+  \label{}
+\end{equation}
+
+\begin{equation}
+    B_{y0}(x,y,z)=\int_0^{2 \pi} \frac{Rzsin \phi}{(x^2+y^2+z^2+R^2-2xRcos \phi-2yRsin \phi)^{3/2}} d\phi
+  \label{}
+\end{equation}
+
+\begin{equation}
+    B_{z0}(x,y,z)=\int_0^{2 \pi} \frac{R(R-xcos\phi-ysin\phi)}{(x^2+y^2+z^2+R^2-2xRcos \phi-2yRsin \phi)^{3/2}} d\phi
+  \label{}
+\end{equation}
+
+ Then we can get the magnetic field by a transformation
+
+ \begin{equation}
+     B_{x}(x,y,z)=B_{x0}(x,y,z-d/2)+B_{x0}(x,y,z+d/2)
+   \label{}
+ \end{equation}
+
+ \begin{equation}
+     B_{y}(x,y,z)=B_{y0}(x,y,z-d/2)+B_{y0}(x,y,z+d/2)
+   \label{}
+ \end{equation}
+
+ \begin{equation}
+     B_{z}(x,y,z)=B_{z0}(x,y,z-d/2)+B_{z0}(x,y,z+d/2)
+   \label{}
+ \end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Solution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Equation to be solved}
+
+\indent
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Numerical method used}
+Gaussian quadrature method is applied.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Results}
+
+The value of the triple integral is 0.09603.
+
+%\begin{figure}[!h]
+%\centering
+%\includegraphics[width=4in]{2.pdf}
+%\caption{square finite well and wave functions}
+%\label{gasbulbdata}
+%\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Discussions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+\newcommand{\Z}{\mathbb{Z}}
