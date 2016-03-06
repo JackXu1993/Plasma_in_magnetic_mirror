@@ -96,22 +96,31 @@ double bz(double xxx)
     return (zz);
 }
 
-double test(double xxx)
+void rkt1f(t,y,n,d)
+int n;
+double t, y[],d[];
 {
-    double tt;
-    tt=(1-2*cos(xxx)-2*sin(xxx))*pow((4+4+4+1-4*cos(xxx)-4*sin(xxx)),-1.5);
-    return (tt);
+    t=t; n=n;
+    d[0]=-3*(y[0]-y[1]);
+    d[1]=-y[0]*y[2]+26.5*y[0]-y[1];
+    d[2]=y[0]*y[1]-y[2];
+    return;
 }
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////main function////////////////////////////////////
+/////////////////////////////////////main function////////////////////////////////////
 int main()
 {
-    double i,j,k;
-    int n=50;
+    double i,j,k,n=3,m=600;
+    int n=10;
     double a,b,eps,gx,gy,gz,bx(double),by(double),bz(double);
     a=0.0; b=2*3.1415926; eps=0.000001;
+    void rkt1f(double,double [],int, double []);
+    double t,h,y[n],z[n][m+1];
+/////////////////////initial values and step////////////////////////////
+    y[0]=0.0; y[1]=1.0; y[2]=0.0;
+    t=0.0; h=0.01;
+/////////////////////////////create a date file/////////////////////////
     FILE* fp;
-
     fp = fopen("magnetic_field.txt", "w");
     if (!fp)
     {
@@ -119,7 +128,8 @@ int main()
         //exit(-1);
     }
 
-
+////////////////////////////////calculation/////////////////////////////////
+////////////////////////////////calculation/////////////////////////////////
     for ( i = -n/2; i <=n/2; i++)
     {
         for ( j = -n/2; j <=n/2; j++)
@@ -130,9 +140,9 @@ int main()
                     gx=lrgs(a,b,eps,bx);
                     gy=lrgs(a,b,eps,by);
                     gz=lrgs(a,b,eps,bz);
-                    fprintf(fp,"gx(%4.3f,%4.3f,%4.3f)=%13.5e  ", x,y,z,gx);
-                    fprintf(fp,"gy(%4.3f,%4.3f,%4.3f)=%13.5e  ", x,y,z,gy);
-                    fprintf(fp,"gz(%4.3f,%4.3f,%4.3f)=%13.5e\n", x,y,z,gz);
+                    fprintf(fp,"%4.3f  %4.3f  %4.3f  %13.5e  ", x,y,z,gx);
+                    fprintf(fp,"%13.5e  ", gy);
+                    fprintf(fp,"%13.5e\n", gz);
             }
         }
     }
@@ -140,5 +150,4 @@ int main()
 
 x=-2.0; y=-2.0; z=-2.0;
 printf("%13.5e\n", lrgs(a,b,eps,bz));
-printf("%13.5e\n", lrgs(a,b,eps,test));
 }
