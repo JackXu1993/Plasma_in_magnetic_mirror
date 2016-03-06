@@ -16,7 +16,7 @@ GLint rings =50;
 
 
 
-void myWireSphere(GLfloat radius, int slices, int stacks) 
+void myWireSphere(GLfloat radius, int slices, int stacks)
 {
   glPushMatrix();
   glRotatef(-90.0, 1.0, 0.0, 0.0);
@@ -108,3 +108,4 @@ int main (int argc, char **argv)
     glutMainLoop();
     return 0;
 }
+//g++ -framework OpenGL -framework GLUT torus.cpp
