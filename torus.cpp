@@ -6,9 +6,7 @@
 #include <cmath>
 //#include <GLFW/glfw3.h>
 
-GLfloat xRotated, yRotated, zRotated;
 GLfloat x;
-// Torus
 GLdouble innerRaidus=0.15;
 GLdouble outterRaidus=1;
 GLint sides =50;
@@ -84,9 +82,6 @@ int main (int argc, char **argv)
     // create the window
     glutCreateWindow("Plasma");
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    xRotated = yRotated = zRotated = 30.0;
-//     xRotated=33;
-//     yRotated=40;
     glClearColor(0.0,0.0,0.0,0.0);
     //Assign  the function used in events
     glutDisplayFunc(displayTorus);
