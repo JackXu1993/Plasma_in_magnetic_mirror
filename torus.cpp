@@ -1,4 +1,3 @@
-
 #ifdef __APPLE_CC__
 #include <GLUT/glut.h>
 #else
@@ -8,6 +7,7 @@
 //#include <GLFW/glfw3.h>
 
 GLfloat xRotated, yRotated, zRotated;
+GLfloat x;
 // Torus
 GLdouble innerRaidus=0.15;
 GLdouble outterRaidus=1;
@@ -19,7 +19,8 @@ GLint rings =50;
 void myWireSphere(GLfloat radius, int slices, int stacks)
 {
   glPushMatrix();
-  glRotatef(-90.0, 1.0, 0.0, 0.0);
+  glRotatef(-90.0, 1, 0.0, 0.0);
+  glTranslatef(x,0.0,0.0);
   glutWireSphere(radius, slices, stacks);
   glPopMatrix();
 }
@@ -28,30 +29,17 @@ void myWireSphere(GLfloat radius, int slices, int stacks)
 void displayTorus(void)
 {
 
-    glMatrixMode(GL_MODELVIEW);
-    // clear the drawing buffer.
-    glClear(GL_COLOR_BUFFER_BIT);
-    // clear the identity matrix.
-    glLoadIdentity();
-    // traslate the draw by z = -4.0
-    // Note this when you decrease z like -8.0 the drawing will looks far , or smaller.
-    glTranslatef(0.0,0.0,-4.5);
-    // Red color used to draw.
-    glColor3f(1.0, 0.0, 0.0);
-    // changing in transformation matrix.
-    // rotation about X axis
-    glRotatef(xRotated,1.0,0.0,0.0);
-    // rotation about Y axis
-    glRotatef(yRotated,0.0,1.0,0.0);
-    // rotation about Z axis
-    glRotatef(zRotated,0.0,0.0,1.0);
-    // scaling transfomation
-    glScalef(1.0,1.0,1.0);
-    // built-in (glut library) function , draw you a Torus.
+    glMatrixMode(GL_MODELVIEW);// clear the drawing buffer.
+    glClear(GL_COLOR_BUFFER_BIT);// clear the identity matrix.
+    glLoadIdentity();// traslate the draw by z = -4.0 // Note this when you decrease z like -8.0 the drawing will looks far , or smaller.
+    glTranslatef(0.0,0.0,-4.5);// Red color used to draw.
+    glColor3f(1.0, 0.0, 0.0);// changing in transformation matrix.    // rotation about X axis
+    glRotatef(xRotated,1.0,0.0,0.0);// rotation about Y axis
+    glRotatef(yRotated,0.0,1.0,0.0);// rotation about Z axis
+    glRotatef(zRotated,0.0,0.0,1.0);// scaling transfomation
+    glScalef(1.0,1.0,1.0);// built-in (glut library) function , draw you a Torus.
 
-
-    glutSolidTorus(innerRaidus,outterRaidus,sides,rings);
-    // Flush buffers to screen
+    glutSolidTorus(innerRaidus,outterRaidus,sides,rings);// Flush buffers to screen
 
     glColor3f(0.0, 0.0, 1.0);
     myWireSphere(0.1, 50, 50);
@@ -79,7 +67,7 @@ void reshapeTorus(int x, int y)
 void idleTorus(void)
 {
 
-     yRotated += 0.0;
+     x += 0.01;
 
     displayTorus();
 }
@@ -97,8 +85,8 @@ int main (int argc, char **argv)
     glutCreateWindow("Plasma");
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     xRotated = yRotated = zRotated = 30.0;
-     xRotated=33;
-     yRotated=40;
+//     xRotated=33;
+//     yRotated=40;
     glClearColor(0.0,0.0,0.0,0.0);
     //Assign  the function used in events
     glutDisplayFunc(displayTorus);

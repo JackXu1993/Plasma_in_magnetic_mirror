@@ -101,16 +101,19 @@ int n;
 double t, y[],d[];
 {
     t=t; n=n;
-    d[0]=-3*(y[0]-y[1]);
-    d[1]=-y[0]*y[2]+26.5*y[0]-y[1];
-    d[2]=y[0]*y[1]-y[2];
+    d[0]=-615479*(y[1]*lrgs(a,b,eps,bz)-y[2]*lrgs(a,b,eps,by));
+    d[1]=-615479*(y[2]*lrgs(a,b,eps,bx)-y[0]*lrgs(a,b,eps,bz));
+    d[2]=-615479*(y[0]*lrgs(a,b,eps,by)-y[1]*lrgs(a,b,eps,bx));
+    d[3]=y[0];
+    d[4]=y[1];
+    d[5]=y[2];
     return;
 }
 /////////////////////////////////////main function////////////////////////////////////
 /////////////////////////////////////main function////////////////////////////////////
 int main()
 {
-    double i,j,k,n=3,m=600;
+    double i,j,k,n=6,m=20;
     int n=10;
     double a,b,eps,gx,gy,gz,bx(double),by(double),bz(double);
     a=0.0; b=2*3.1415926; eps=0.000001;
@@ -130,21 +133,16 @@ int main()
 
 ////////////////////////////////calculation/////////////////////////////////
 ////////////////////////////////calculation/////////////////////////////////
-    for ( i = -n/2; i <=n/2; i++)
+    printf("\n");
+    for ( i = 0; i <=m ; i++)
     {
-        for ( j = -n/2; j <=n/2; j++)
+        t=i*h;
+        //        printf("t=%5.2f\n", t);
+        for ( j = 0; j <= n-1 ; j++)
         {
-            for ( k = -n/2; k <=n/2; k++)
-            {
-                    x=2.0*i/n; y=2.0*j/n; z=4.0*k/n;
-                    gx=lrgs(a,b,eps,bx);
-                    gy=lrgs(a,b,eps,by);
-                    gz=lrgs(a,b,eps,bz);
-                    fprintf(fp,"%4.3f  %4.3f  %4.3f  %13.5e  ", x,y,z,gx);
-                    fprintf(fp,"%13.5e  ", gy);
-                    fprintf(fp,"%13.5e\n", gz);
-            }
+            fprintf(fp,"%13.5e %13.5e  " ,t ,z[j][i]);
         }
+        fprintf(fp,"\n");
     }
     fclose(fp);
 
