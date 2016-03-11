@@ -120,17 +120,17 @@ double t, y[],d[];
 /////////////////////////////////////main function////////////////////////////////////
 int main()
 {
-    int n=6,m=10,i,j,k;
+    int n=6,m=6000,i,j,k;
     double a,b,eps,gx,gy,gz,bx(double),by(double),bz(double);
     a=0.0; b=2*PI; eps=0.000001;
     void rkt1f(double,double [],int, double []);
     double t,h,y[n],z[n][m+1];
 /////////////////////initial values and step////////////////////////////
-    y[0]=0.0; y[1]=1.0; y[2]=0.0;
-    t=0.0; h=0.01;
+    y[0]=0.0; y[1]=0.3e6; y[2]=0.15e6;y[3]=0.0;y[4]=0.0;y[5]=0.0;
+    t=0.0; h=6e-5/m;
 /////////////////////////////create a date file/////////////////////////
     FILE* fp;
-    fp = fopen("xyz.txt", "w");
+    fp = fopen("xyz.dat", "w");
     if (!fp)
     {
         perror("cannot open file");
@@ -145,7 +145,7 @@ int main()
     {
         t=i*h;
         //        printf("t=%5.2f\n", t);
-        fprintf(fp,"%5.3e " ,t );
+        fprintf(fp,"%13.5e " ,t );
         for ( j = 0; j <= n-1 ; j++)
         {
             fprintf(fp,"%13.5e  " ,z[j][i]);
@@ -155,5 +155,5 @@ int main()
     fclose(fp);
 
 
-printf("%13.5e\n", lrgs(a,b,eps,bz,-2.0,-2.0,-2.0));
+printf("%13.5e\n", lrgs(a,b,eps,bz,-1.0,-1.0,-1.0));
 }
