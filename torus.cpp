@@ -6,8 +6,8 @@
 #include <cmath>
 //#include <GLFW/glfw3.h>
 
-GLfloat xRotated, yRotated, zRotated;
-GLfloat xx;
+GLdouble xRotated=0.0, yRotated=90.0, zRotated=0.0;
+GLdouble xx=0.0, yy=0.0, zz=-3.0 ;
 GLdouble innerRaidus=0.15;
 GLdouble outterRaidus=1.0;
 GLint sides =50;
@@ -18,7 +18,7 @@ void sphere(GLfloat radius, int slices, int stacks)
   glPushMatrix();
   glColor3f(1.0, 0.0, 0.0);
 //  glRotatef(-90.0, 1.0, 0.0, 0.0);
-  glTranslatef(xx,0.0,-3.0);
+  glTranslatef(xx, yy, zz);
   glutWireSphere(radius, slices, stacks);
   glPopMatrix();
 }
@@ -54,7 +54,7 @@ void displayTorus(void)
 
     //glPushMatrix();
 //    glColor3f(0.0, 0.0, 1.0);
-    sphere(0.1, 50, 50);
+    sphere(0.05, 50, 50);
     //glPopMatrix();
 
     glFlush();
@@ -81,6 +81,7 @@ void idleTorus(void)
 {
 //     yRotated += 0.0;
      xx += 0.003;
+     yy += 0.003;
     displayTorus();
 }
 
@@ -92,9 +93,6 @@ int main (int argc, char **argv)
     glutInitWindowSize(1200,1200);
     glutCreateWindow("Plasma");
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    xRotated=0;
-    yRotated=90;
-    zRotated=0;
     glClearColor(0.0,0.0,0.0,0.0);
     //Assign  the function used in events
     glutDisplayFunc(displayTorus);

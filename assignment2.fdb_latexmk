@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1457198290 "assignment2.tex" "assignment2.pdf" "assignment2" 1457266646
+["pdflatex"] 1457198290 "assignment2.tex" "assignment2.pdf" "assignment2" 1457705055
   "/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2015/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -80,8 +80,8 @@
   "/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1432479641 1764542 91654ba72bdb667e84ea24f076ae16d8 ""
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1453277628 3849859 510a0d3465e8c46dd7eaa4afd22e97ef ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
-  "assignment2.aux" 1457198291 522 cff8f85c0fcf4832246b0ef30abd7596 ""
-  "assignment2.tex" 1457247237 4136 1900c08486d343ae228c666e388acf26 ""
+  "assignment2.aux" 1457274361 522 cff8f85c0fcf4832246b0ef30abd7596 ""
+  "assignment2.tex" 1457274361 4136 1900c08486d343ae228c666e388acf26 ""
   (generated)
   "assignment2.aux"
   "assignment2.pdf"
