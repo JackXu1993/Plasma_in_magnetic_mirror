@@ -172,11 +172,12 @@ void displayTorus(void)
     glutSolidTorus(innerRaidus,outterRaidus,sides,rings);
     glPopMatrix();
 
-    glBegin(GL_LINES);
-     glColor3f(1.0, 1.0, 1.0);
-      glVertex3f(1.0,0.0,-2.5);
-      glVertex3f(xx,yy,zz);
-    glEnd();
+//    glBegin(GL_LINES);
+//     glColor3f(1.0, 1.0, 1.0);
+//      glVertex3f(1.0,0.0,-2.5);
+//      glVertex3f(xx,yy,zz);
+//    glEnd();
+
 //    glBegin(GL_LINE_STRIP);
 //    glColor3f(1.0, 1.0, 1.0);
 //    for(angle = 0; angle <= steps; angle ++)
@@ -203,6 +204,9 @@ void reshapeTorus(int x, int y)
     glLoadIdentity();
     gluPerspective(80.0,(GLdouble)x/(GLdouble)y,0.01,50.0);
     glViewport(0,0,x,y);  //Use the whole window for rendering
+    gluLookAt(	3.0f, 0.0f, -2.0f,
+                0.0f, 0.0f, -3.0f,
+                0.0f, 1.0f,  0.0f);
 }
 
 void idleTorus(void)
