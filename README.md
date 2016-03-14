@@ -88,6 +88,83 @@ Its intial values are
 ## Code by Mathematica
 Mathematica is a powerful mathematic and physics software. It can realize this program by very short code and its graphics in 3D and animation in 3D are cool, but its efficiency is really low.
 
+```
+SetDirectory[NotebookDirectory[]];
+
+Bx0[x_, y_, z_] := NIntegrate[
+   ( R z Cos[\[CurlyPhi]])/(x^2 + y^2 + z^2 + R^2 -
+     2 x R Cos[\[CurlyPhi]] - 2 y R Sin[\[CurlyPhi]])^(3/2),
+   {\[CurlyPhi], 0, 2 \[Pi]}, MaxRecursion -> 12];
+By0[x_, y_, z_] := NIntegrate[
+   ( R z Sin[\[CurlyPhi]])/(x^2 + y^2 + z^2 + R^2 -
+     2 x R Cos[\[CurlyPhi]] - 2 y R Sin[\[CurlyPhi]])^(3/2),
+   {\[CurlyPhi], 0, 2 \[Pi]}, MaxRecursion -> 12];
+Bz0[x_, y_, z_] := NIntegrate[
+   ( R (R - x Cos[\[CurlyPhi]] - y Sin[\[CurlyPhi]]))/(x^2 + y^2 +
+     z^2 + R^2 - 2 x R Cos[\[CurlyPhi]] - 2 y R Sin[\[CurlyPhi]])^(
+   3/2),
+   {\[CurlyPhi], 0, 2 \[Pi]}, MaxRecursion -> 12];
+Bx[x_, y_, z_] := Bx0[x, y, z - d/2] + Bx0[x, y, z + d/2];
+By[x_, y_, z_] := By0[x, y, z - d/2] + By0[x, y, z + d/2];
+Bz[x_, y_, z_] := Bz0[x, y, z - d/2] + Bz0[x, y, z + d/2];
+R = 1.0; d = 2 R; n = 50;
+data1 = {};
+Do[
+ Do[
+  Do[AppendTo[data1, {(3 R)/n i, (3 R)/n j, (2 d)/n k,
+     Bx[(3 R)/n i, (3 R)/n j, (2 d)/n k]}],
+   {i, -n/2, n/2}],
+  {j, -n/2, n/2}],
+ {k, -n/2, n/2}]
+Bx = Interpolation[data1];
+Bx >> "Bx50";
+data2 = {};
+Do[
+ Do[
+  Do[AppendTo[data2, {(3 R)/n i, (3 R)/n j, (2 d)/n k,
+     By[(3 R)/n i, (3 R)/n j, (2 d)/n k]}],
+   {i, -n/2, n/2}],
+  {j, -n/2, n/2}],
+ {k, -n/2, n/2}]
+By = Interpolation[data2];
+By >> "By50";
+data3 = {};
+Do[
+ Do[
+  Do[AppendTo[data3, {(3 R)/n i, (3 R)/n j, (2 d)/n k,
+     Bz[(3 R)/n i, (3 R)/n j, (2 d)/n k]}],
+   {i, -n/2, n/2}],
+  {j, -n/2, n/2}],
+ {k, -n/2, n/2}]
+Bz = Interpolation[data3];
+Bz >> "Bz50";
+
+SetDirectory[NotebookDirectory[]];
+R = 1; d = 2 R;
+sc = 1.75851*10^11*0.35*10^-5; time = 60 10^-6;
+<< "Bx50";
+Bx = %;
+<< "By50";
+By = %;
+<< "Bz50";
+Bz = %;
+equ = {x''[t] == -sc (y'[t] Bz[x[t], y[t], z[t]] -
+       z'[t] By[x[t], y[t], z[t]]),
+   y''[t] == -sc (z'[t] Bx[x[t], y[t], z[t]] -
+       x'[t] Bz[x[t], y[t], z[t]]),
+   z''[t] == -sc (x'[t] By[x[t], y[t], z[t]] -
+       y'[t] Bx[x[t], y[t], z[t]]),
+   x[0] == 0, x'[0] == 0, y[0] == 0, y'[0] == 0.3 10^6,
+   z[0] == 0, z'[0] == 0.15 10^6};
+s = NDSolve[equ, {x, y, z}, {t, 0, time}]
+{x, y, z} = {x, y, z} /. s[[1]];
+Manipulate[ParametricPlot3D[{x[t], y[t], z[t]},
+  {t, 0, t0}, Ticks -> None, AxesStyle -> Thin, Axes -> True,
+  AxesLabel -> {"x", "y", "z"},
+  PlotStyle -> {Thin, Black}, AspectRatio -> 2,
+  PlotRange -> {{- 0.3 d, 0.3 d}, {-0.3 d, 0.3 d}, {-0.75 d,
+     0.75 d}}], {t0, 0.001 time, time}]
+```
 This picture shows the configuration of a magnetic bottle. The grey vectors represent the magnetic field. Two yellow rings means two coils with the same current. Red lines presents the trace of an electron. The blue arrow means the initial position and velocity of the electron.
 
 ![Magnetic Field](http://ww1.sinaimg.cn/large/0062cUvtgw1f03rwzk2z4j30pz0pen2x.jpg)
@@ -100,4 +177,11 @@ This figure shows the x,y,z coordinate changing with time.
 
 ![xyz](https://raw.githubusercontent.com/JackXu1993/Plasma_in_magnetic_mirror/master/Untitled-1.bmp)
 
-## C Program
+## Code by C and OpenGl
+Although C is much more complicate than Mathematica and its code is much longer, its efficiency is much higher and OpenGl is good at graphics and animation.
+
+This figure shows the x,y,z coordinate changing with time, which is almost same to the one calculated by Mathematica.
+
+![figure](https://raw.githubusercontent.com/JackXu1993/Plasma_in_magnetic_mirror/master/cxyz.png)
+
+The animation by OpenGl still has a lot to improve.
