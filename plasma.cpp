@@ -7,13 +7,15 @@
 #define A 0.0
 #define B 2*PI
 #define EPS 0.000001
-#define n 6
+#define number 6
 #define m 6000
 using namespace std;
 
 /////////////////////////////////definition of functions////////////////////////////////
 /////////////////////////////////definition of functions////////////////////////////////
 double px,py,pz;
+const int n=6;
+const int m=6000;
 double y[n];
 double d[n];
 typedef double (*PT) ( double );

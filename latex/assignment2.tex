@@ -47,11 +47,11 @@
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Calculate the magnetic field }
-
+\section{Principle of the magnetic bottle}
+\subsection{Calculate the magnetic field}
 \indent
 
-We can get the magnetic field which is generared by a coil by integrating
+We can get the magnetic field which is generared by a coil(at the origin of the coordinate) by integrating
 \begin{equation}
 \begin{cases}
         B_{x0}(x,y,z)=\int_0^{2 \pi} \frac{Rzcos \phi}{(x^2+y^2+z^2+R^2-2xRcos \phi-2yRsin \phi)^{3/2}} d\phi\\
@@ -61,7 +61,7 @@ We can get the magnetic field which is generared by a coil by integrating
 \end{equation}
 
 
- Then we can get the magnetic field by a transformation
+ Then we can get the magnetic field of a magnetic bottle (two coils) by a transformation
 
  \begin{equation}
  \begin{cases}
@@ -70,14 +70,28 @@ We can get the magnetic field which is generared by a coil by integrating
         B_{z}(x,y,z)=B_{z0}(x,y,z-d/2)+B_{z0}(x,y,z+d/2)
  \end{cases}
  \end{equation}
+ d in these equations means the distance between two coils.
 
 
- Then we need to solve the second order Ordinary Diﬀerential Equations,
+\subsection{Calculate the movement of the electron}
+According to the Newton equation and Lorentz force equation
+\begin{equation}
+\begin{cases}
+    F=ma\\
+    F_{Lorentz}=qv \times x
+\end{cases}
+\end{equation}
+Then we can get the equation,
+\begin{equation}
+    qv \times x=ma
+\end{equation}
+
+Then we need to solve the second order Ordinary Diﬀerential Equations, because we study this problem in 3D.
 \begin{equation}
     \begin{cases}
-        x''=-sc(y'Bz(x,y,z)-z'By(x,y,z))\\
-        y''=-sc(z'Bx(x,y,z)-x'Bz(x,y,z))\\
-        z''=-sc(x'By(x,y,z)-y'Bx(x,y,z))
+        x''=-\frac{m}{q}(y'Bz(x,y,z)-z'By(x,y,z))\\
+        y''=-\frac{m}{q}(z'Bx(x,y,z)-x'Bz(x,y,z))\\
+        z''=-\frac{m}{q}(x'By(x,y,z)-y'Bx(x,y,z))
     \end{cases}
 \end{equation}
 
@@ -116,12 +130,10 @@ Its intial values are
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Numerical method used}
-Gaussian quadrature method is applied.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Results}
 
-The value of the triple integral is 0.09603.
 
 %\begin{figure}[!h]
 %\centering
