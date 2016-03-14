@@ -1,11 +1,12 @@
 # Plasma-in-Magnetic-Bottle
 
-## Principle of [Magnetic Bottle](https://en.wikipedia.org/wiki/Magnetic_mirror)
+## [Principle of Magnetic Bottle](https://en.wikipedia.org/wiki/Magnetic_mirror)
 A magnetic bottle is two magnetic mirrors placed close together. For example, two parallel coils separated by a small distance, carrying the same current in the same direction will produce a magnetic bottle between them. Unlike the full mirror machine which typically had many large rings of current surrounding the middle of the magnetic field, the bottle typically has just two rings of current. Particles near either end of the bottle experience a magnetic force towards the center of the region; particles with appropriate speeds spiral repeatedly from one end of the region to the other and back. Magnetic bottles can be used to temporarily trap charged particles. It is easier to trap electrons than ions, because electrons are so much lighter This technique is used to confine very hot plasmas with temperatures of the order of 106 K.
 
 ![magnetic mirror](https://upload.wikimedia.org/wikipedia/commons/1/1e/Fields_in_magnetic_bottles.jpg)
 
 ## How to simulate a Magnetic Bottle
+>[The math equations below are written by latex. You can see a more concise version here](https://github.com/JackXu1993/Plasma_in_magnetic_mirror/blob/master/latex/assignment2.pdf)
 
 ### Calculate the magnetic field of magnetic bottle in 3D by numeric integration
 We can get the magnetic field which is generared by a coil(at the origin of the coordinate) by integrating
@@ -84,11 +85,14 @@ Its intial values are
 \end{equation}
 ```
 
-## Mathematica Program
-It describes the movement of plasma in the magnetic field of magnetic mirror. This program is written by mathematica.
+## Code by Mathematica
+Mathematica is a powerful mathematic and physics software. It can realize this program by very short code and its graphics in 3D and animation in 3D are cool, but its efficiency is really low.
 
-![Drift](http://ww3.sinaimg.cn/large/0062cUvtgw1f03md0p7z1g306s0c07el.gif)
+This picture shows the configuration of a magnetic bottle. The grey vectors represent the magnetic field. Two yellow rings means two coils with the same current. Red lines presents the trace of an electron. The blue arrow means the initial position and velocity of the electron.
 
 ![Magnetic Field](http://ww1.sinaimg.cn/large/0062cUvtgw1f03rwzk2z4j30pz0pen2x.jpg)
+
+This gif shows the movement of an electron in a magnetic bottle.(Notice the two coils actually are on the z axle, which is different from the picture above. You can see this gif by rotating your head by 90 degree)
+![Drift](http://ww3.sinaimg.cn/large/0062cUvtgw1f03md0p7z1g306s0c07el.gif)
 
 ## C Program
