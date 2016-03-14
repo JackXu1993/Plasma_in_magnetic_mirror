@@ -85,7 +85,7 @@ Its intial values are
 \end{equation}
 ```
 
-## Code by Mathematica
+## [Code by Mathematica](https://github.com/JackXu1993/Plasma_in_magnetic_mirror/blob/master/magnetic_mirror(mathematica_code).nb)
 Mathematica is a powerful mathematic and physics software. It can realize this program by very short code and its graphics in 3D and animation in 3D are cool, but its efficiency is really low.
 
 ```
@@ -177,7 +177,7 @@ This figure shows the x,y,z coordinate changing with time.
 
 ![xyz](https://raw.githubusercontent.com/JackXu1993/Plasma_in_magnetic_mirror/master/Untitled-1.bmp)
 
-## Code by C and OpenGl
+## [Code by C and OpenGl](https://github.com/JackXu1993/Plasma_in_magnetic_mirror/blob/master/torus.c)
 Although C is much more complicate than Mathematica and its code is much longer, its efficiency is much higher and OpenGl is good at graphics and animation.
 
 This figure shows the x,y,z coordinate changing with time, which is almost same to the one calculated by Mathematica.
@@ -185,3 +185,8 @@ This figure shows the x,y,z coordinate changing with time, which is almost same 
 ![figure](https://raw.githubusercontent.com/JackXu1993/Plasma_in_magnetic_mirror/master/cxyz.png)
 
 The animation by OpenGl still has a lot to improve.
+-The camera
+-The trace
+-magnetic field
+
+## Matlab
