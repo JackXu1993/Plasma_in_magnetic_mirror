@@ -13,14 +13,30 @@
 /////////////////////////////integrate function////////////////////////////////
 /////////////////////////////integrate function////////////////////////////////
 GLdouble xRotated=0.0, yRotated=90.0, zRotated=0.0;
-GLdouble xx=0.0, yy=0.0, zz=-3.0 ;
+GLdouble xx=0.0, yy=0.0, zz=0.0 ;
 GLdouble lx, ly, lz;
 GLdouble innerRaidus=0.10;
 GLdouble outterRaidus=1.0;
 GLint sides =50;
 GLint rings =50;
-GLint angle;
 
+
+
+// angle of rotation for the camera direction
+float angle = 0.0f;
+
+// actual vector representing the camera's direction
+float llx=0.0f,llz=-1.0f;
+
+// XZ position of the camera
+float cx=0.0f, cz=5.0f;
+
+// the key states. These variables will be zero
+//when no key is being presses
+float deltaAngle = 0.0f;
+float deltaMove = 0;
+int xOrigin = -1;
+/////////////////////////////////////////////////////////////////////////////
 double px,py,pz;
 double z[6][steps+1];
 
@@ -153,7 +169,7 @@ void displayTorus(void)
     glLoadIdentity();
 
     glPushMatrix();
-    glTranslatef(1.0,0.0,-2.5);
+    glTranslatef(1.0,0.0,0.0);
     glColor3f(1.0, 1.0, 0.0);
     glRotatef(xRotated,1.0,0.0,0.0);
     glRotatef(yRotated,0.0,1.0,0.0);
@@ -163,7 +179,7 @@ void displayTorus(void)
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-1.0,0.0,-2.5);
+    glTranslatef(-1.0,0.0,0.0);
     glColor3f(1.0, 1.0, 0.0);
     glRotatef(xRotated,1.0,0.0,0.0);
     glRotatef(yRotated,0.0,1.0,0.0);
@@ -195,34 +211,104 @@ void displayTorus(void)
     // sawp buffers called because we are using double buffering
    // glutSwapBuffers();
 }
+/////////////////////////////////////////////////////////////////
+void computePos(float deltaMove) {
+
+	cx += deltaMove * llx * 0.1f;
+	cz += deltaMove * llz * 0.1f;
+}
+
 
 void reshapeTorus(int x, int y)
 {
     if (y == 0 || x == 0) return;  //Nothing is visible then, so return
     //Set a new projection matrix
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(80.0,(GLdouble)x/(GLdouble)y,0.01,50.0);
     glViewport(0,0,x,y);  //Use the whole window for rendering
-    gluLookAt(	3.0f, 0.0f, -2.0f,
-                0.0f, 0.0f, -3.0f,
-                0.0f, 1.0f,  0.0f);
+    if (deltaMove)
+        computePos(deltaMove);
+
+    // Clear Color and Depth Buffers
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Reset transformations
+//    glLoadIdentity();
+    // Set the camera
+    gluLookAt(	cx, 1.0f, cz,
+            cx+llx, 1.0f,  cz+llz,
+            0.0f, 1.0f,  0.0f);
+}
+
+
+void processNormalKeys(unsigned char key, int cxx, int cyy) {
+
+        if (key == 27)
+              exit(0);
+}
+
+void pressKey(int key, int cxx, int cyy) {
+
+       switch (key) {
+             case GLUT_KEY_UP : deltaMove = 0.5f; break;
+             case GLUT_KEY_DOWN : deltaMove = -0.5f; break;
+       }
+}
+
+void releaseKey(int key, int x, int y) {
+
+        switch (key) {
+             case GLUT_KEY_UP :
+             case GLUT_KEY_DOWN : deltaMove = 0;break;
+        }
+}
+
+void mouseMove(int x, int y) {
+
+         // this will only be true when the left button is down
+         if (xOrigin >= 0) {
+
+		// update deltaAngle
+		deltaAngle = (x - xOrigin) * 0.001f;
+
+		// update camera's direction
+		llx = sin(angle + deltaAngle);
+		llz = -cos(angle + deltaAngle);
+	}
+}
+
+void mouseButton(int button, int state, int x, int y) {
+
+	// only start motion if the left button is pressed
+	if (button == GLUT_LEFT_BUTTON) {
+
+		// when the button is released
+		if (state == GLUT_UP) {
+			angle += deltaAngle;
+			xOrigin = -1;
+		}
+		else  {// state = GLUT_DOWN
+			xOrigin = x;
+		}
+	}
 }
 
 void idleTorus(void)
 {
     int i;
+
 for (i = 0; i < steps; i++)
 {
     xx = z[5][i];
     yy = z[4][i];
-    zz = z[3][i]-3;
+    zz = z[3][i];
 
    displayTorus();
 }
 
 }
-
 
 int main (int argc, char **argv)
 {
@@ -271,6 +357,18 @@ int main (int argc, char **argv)
     glutReshapeFunc(reshapeTorus);
     glutIdleFunc(idleTorus);
     //Let start glut loop
+    glutIgnoreKeyRepeat(1);
+
+glutKeyboardFunc(processNormalKeys);
+glutSpecialFunc(pressKey);
+glutSpecialUpFunc(releaseKey);
+
+// here are the two new functions
+glutMouseFunc(mouseButton);
+glutMotionFunc(mouseMove);
+// OpenGL init
+glEnable(GL_DEPTH_TEST);
+
     glutMainLoop();
     return 0;
 }
