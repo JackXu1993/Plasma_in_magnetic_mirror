@@ -364,15 +364,19 @@ int main (int argc, char **argv)
 {
     int i,j,k;
     double t,h;
+    float ratio;
 //    double z[n][m+1];
     PF rr;
     rr=ode;
 /////////////////////initial values and step////////////////////////////
-    y[0]=0.0; y[1]=0.4e6; y[2]=0.15e6; y[3]=0.0;y[4]=0.0;y[5]=0.0;
+    printf("input the ratio of vy and vz (default value is 2): ");
+    scanf_s("%f",&ratio);
+//    printf("%7.2f\n",ratio );
+    y[0]=0.0; y[1]=ratio*0.15e6; y[2]=0.15e6; y[3]=0.0;y[4]=0.0;y[5]=0.0;
     t=0.0; h=6e-5/m;
 /////////////////////////////create a date file/////////////////////////
     FILE* fp;
-    fp = fopen("xyz++.dat", "w");
+    fopen_s(&fp, "xyz++.dat", "w");
     if (!fp)
     {
         perror("cannot open file");
