@@ -263,22 +263,6 @@ int i;
     glutSwapBuffers();
 }
 
-void Mouse(int button, int state, int x, int y) //处理鼠标点击
-{
-    if(state==GLUT_DOWN) //第一次鼠标按下时,记录鼠标在窗口中的初始坐标
-        oldmx=x,oldmy=y;
-}
-
-void onMouseMove(int x,int y) //处理鼠标拖动
-{
-    //printf("%d\n",du);
-    du+=x-oldmx; //鼠标在窗口x轴方向上的增量加到视点绕y轴的角度上，这样就左右转了
-    mh +=0.03f*(y-oldmy); //鼠标在窗口y轴方向上的改变加到视点的y坐标上，就上下转了
-    if(mh>1.0f) mh=1.0f; //视点y坐标作一些限制，不会使视点太奇怪
-    else if(mh<-1.0f) mh=-1.0f;
-    oldmx=x,oldmy=y; //把此时的鼠标坐标作为旧值，为下一次计算增量做准备
-}
-
 /////////////////////////////////////////////////////////////////
 
 void init()
@@ -297,14 +281,58 @@ void reshape(int w,int h)
 
 void idleTorus(void)
 {
-for (gli = 0; gli < m; gli++)
-{
+    gli=gli+1;
+    if (gli > m)
+       gli  = gli - m;
     xx = z[5][gli];
     yy = z[4][gli];
     zz = z[3][gli];
+//   glutTimerFunc(10, displayTorus, 1);
+//   displayTorus();
+   glutPostRedisplay();
 
-   displayTorus();
+//   glutPostRedisplay();
 }
+
+void Mouse(int button, int state, int x, int y) //处理鼠标点击
+{
+    switch (button)
+    {
+    case GLUT_LEFT_BUTTON:
+    if(state==GLUT_DOWN) //第一次鼠标按下时,记录鼠标在窗口中的初始坐标
+        {
+            oldmx=x,oldmy=y;
+//            glutIdleFunc(idleTorus);
+        }
+        break;
+    case GLUT_MIDDLE_BUTTON:
+    case GLUT_RIGHT_BUTTON:
+    if (state == GLUT_DOWN)
+        glutIdleFunc(NULL);
+        break;
+        default:
+        break;
+    }
+}
+
+void KeyFunc(unsigned char key, int x, int y)
+{
+switch(key)
+{
+case 'a': glutIdleFunc(idleTorus); break;
+case 's': glutIdleFunc(NULL); break;
+}
+glutPostRedisplay();
+}
+
+void onMouseMove(int x,int y) //处理鼠标拖动
+{
+    //printf("%d\n",du);
+    du+=x-oldmx; //鼠标在窗口x轴方向上的增量加到视点绕y轴的角度上，这样就左右转了
+    mh +=0.03f*(y-oldmy); //鼠标在窗口y轴方向上的改变加到视点的y坐标上，就上下转了
+    if(mh>1.0f) mh=1.0f; //视点y坐标作一些限制，不会使视点太奇怪
+    else if(mh<-1.0f) mh=-1.0f;
+    oldmx=x,oldmy=y; //把此时的鼠标坐标作为旧值，为下一次计算增量做准备
 }
 
 /////////////////////////////////////main function////////////////////////////////////
@@ -359,11 +387,11 @@ int main (int argc, char **argv)
     //Assign  the function used in events
     glutDisplayFunc(displayTorus);
     glutReshapeFunc(reshape);
-    glutIdleFunc(idleTorus);
+//    glutIdleFunc(idleTorus);
 
     glutMouseFunc(Mouse);
     glutMotionFunc(onMouseMove);
-
+    glutKeyboardFunc(KeyFunc);    //键盘按键
     glutMainLoop();
     return 0;
 }
