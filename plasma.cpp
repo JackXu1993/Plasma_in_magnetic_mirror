@@ -309,6 +309,7 @@ GLfloat mat_emission[] = {0.3, 0.2, 0.2, 0.0};
     gluCylinder(quadratic, 0.02, 0.02, 1.0, 16, 16);
     glPopMatrix();
 
+
     glFlush();
     // sawp buffers called because we are using double buffering
     glutSwapBuffers();
@@ -370,7 +371,6 @@ void Mouse(int button, int state, int x, int y) //处理鼠标点击
     if(state==GLUT_DOWN) //第一次鼠标按下时,记录鼠标在窗口中的初始坐标
         {
             oldmx=x,oldmy=y;
-//            glutIdleFunc(idleTorus);
         }
         break;
     case GLUT_MIDDLE_BUTTON:
@@ -385,12 +385,12 @@ void Mouse(int button, int state, int x, int y) //处理鼠标点击
 
 void KeyFunc(unsigned char key, int x, int y)
 {
-switch(key)
-{
-case 'a': glutIdleFunc(idleTorus); break;
-case 's': glutIdleFunc(NULL); break;
-}
-glutPostRedisplay();
+    switch(key)
+    {
+        case 'a': glutIdleFunc(idleTorus); break;
+        case 's': glutIdleFunc(NULL); break;
+    }
+    glutPostRedisplay();
 }
 
 void onMouseMove(int x,int y) //处理鼠标拖动
