@@ -22,6 +22,7 @@ using namespace std;
 /////////////////////////////////definition of functions////////////////////////////////
 double px,py,pz;
 const int n=6;
+int gli;
 //const int m=6000;
 double y[n];
 double d[n];
@@ -43,13 +44,11 @@ GLdouble innerRaidus=0.10;
 GLdouble outterRaidus=1.0;
 GLint sides =50;
 GLint rings =50;
-float angle = 0.0f;// angle of rotation for the camera direction
-float llx=0.0f,llz=-1.0f;// actual vector representing the camera's direction
-float cx=0.0f, cz=4.0f;// XZ position of the camera
-float deltaAngle = 0.0f;// the key states. These variables will be zero/ /when no key is being presses
-float deltaMove = 0;
-int xOrigin = -1;
+GLint angle;
 
+static float mc=M_PI/180.0f; //弧度和角度转换参数
+static int du=90,oldmy=-1,oldmx=-1; //du是视点绕y轴的角度,opengl里默认y轴是上方向
+static float mr=1.5f,mh=0.0f; //r是视点绕y轴的半径,h是视点高度即在y轴上的坐标
 /////////////////////////////////Integration function////////////////////////////////
 /////////////////////////////////Integration function////////////////////////////////
 double integrate( double a ,double b ,double eps ,PT f ,double xx ,double yy ,double zz )
@@ -181,12 +180,14 @@ void sphere(GLfloat radius, int slices, int stacks)
 }
 
 
+
 void displayTorus(void)
 {
 int i;
     glMatrixMode(GL_MODELVIEW);   // clear the drawing buffer.
-    glClear(GL_COLOR_BUFFER_BIT);  // clear the identity matrix.
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear the identity matrix.
     glLoadIdentity();
+    gluLookAt(mr*cos(mc*du), mh+0.5, mr*sin(mc*du)+1, 0, 0, 0, 0, 1, 0); //从视点看远点,y轴方向(0,1,0)是上方向
 
     glPushMatrix();
     glTranslatef(1.0,0.0,0.0);
@@ -244,115 +245,63 @@ int i;
 //      glVertex3f(xx,yy,zz);
 //    glEnd();
 
-//    glBegin(GL_LINE_STRIP);
-//    glColor3f(1.0, 1.0, 1.0);
-//    for(angle = 0; angle <= steps; angle ++)
-//      {
-//      lx = z[5][angle];
-//      ly = z[4][angle];
-//      lz = z[3][angle]-3;
-//      glVertex3f(lx, ly, lz);
-//      }
-//    glEnd();
+    glBegin(GL_LINE_STRIP);
+    glColor3f(1.0, 1.0, 1.0);
+    for(angle = 0; angle <= gli; angle ++)
+      {
+      lx = z[5][angle];
+      ly = z[4][angle];
+      lz = z[3][angle];
+      glVertex3f(lx, ly, lz);
+      }
+    glEnd();
 
     sphere(0.05, 50, 50);
 
     glFlush();
     // sawp buffers called because we are using double buffering
-   // glutSwapBuffers();
-}
-/////////////////////////////////////////////////////////////////
-void computePos(float deltaMove) {
-
-	cx += deltaMove * llx * 0.1f;
-	cz += deltaMove * llz * 0.1f;
+    glutSwapBuffers();
 }
 
-
-void reshapeTorus(int x, int y)
+void Mouse(int button, int state, int x, int y) //处理鼠标点击
 {
-    if (y == 0 || x == 0) return;  //Nothing is visible then, so return
-    //Set a new projection matrix
+    if(state==GLUT_DOWN) //第一次鼠标按下时,记录鼠标在窗口中的初始坐标
+        oldmx=x,oldmy=y;
+}
 
-    glMatrixMode(GL_PROJECTION);
+void onMouseMove(int x,int y) //处理鼠标拖动
+{
+    //printf("%d\n",du);
+    du+=x-oldmx; //鼠标在窗口x轴方向上的增量加到视点绕y轴的角度上，这样就左右转了
+    mh +=0.03f*(y-oldmy); //鼠标在窗口y轴方向上的改变加到视点的y坐标上，就上下转了
+    if(mh>1.0f) mh=1.0f; //视点y坐标作一些限制，不会使视点太奇怪
+    else if(mh<-1.0f) mh=-1.0f;
+    oldmx=x,oldmy=y; //把此时的鼠标坐标作为旧值，为下一次计算增量做准备
+}
+
+/////////////////////////////////////////////////////////////////
+
+void init()
+{
+    glEnable(GL_DEPTH_TEST);
+}
+
+void reshape(int w,int h)
+{
+    glViewport( 0, 0, w, h );
+    glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluPerspective(80.0,(GLdouble)x/(GLdouble)y,0.01,50.0);
-    glViewport(0,0,x,y);  //Use the whole window for rendering
-    if (deltaMove)
-        computePos(deltaMove);
-
-    // Clear Color and Depth Buffers
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // Reset transformations
-//    glLoadIdentity();
-    // Set the camera
-    gluLookAt(	cx, 1.0f, cz,
-            cx+llx, 1.0f,  cz+llz,
-            0.0f, 1.0f,  0.0f);
-}
-
-
-void processNormalKeys(unsigned char key, int cxx, int cyy) {
-
-        if (key == 27)
-              exit(0);
-}
-
-void pressKey(int key, int cxx, int cyy) {
-
-       switch (key) {
-             case GLUT_KEY_UP : deltaMove = 0.5f; break;
-             case GLUT_KEY_DOWN : deltaMove = -0.5f; break;
-       }
-}
-
-void releaseKey(int key, int x, int y) {
-
-        switch (key) {
-             case GLUT_KEY_UP :
-             case GLUT_KEY_DOWN : deltaMove = 0;break;
-        }
-}
-
-void mouseMove(int x, int y) {
-
-         // this will only be true when the left button is down
-         if (xOrigin >= 0) {
-
-		// update deltaAngle
-		deltaAngle = (x - xOrigin) * 0.001f;
-
-		// update camera's direction
-		llx = sin(angle + deltaAngle);
-		llz = -cos(angle + deltaAngle);
-	}
-}
-
-void mouseButton(int button, int state, int x, int y) {
-
-	// only start motion if the left button is pressed
-	if (button == GLUT_LEFT_BUTTON) {
-
-		// when the button is released
-		if (state == GLUT_UP) {
-			angle += deltaAngle;
-			xOrigin = -1;
-		}
-		else  {// state = GLUT_DOWN
-			xOrigin = x;
-		}
-	}
+    gluPerspective(75.0f, (float)w/h, 0.1f, 50.0f);
+    glMatrixMode( GL_MODELVIEW );
 }
 
 void idleTorus(void)
 {
-    int i;
-for (i = 0; i < m; i++)
+for (gli = 0; gli < m; gli++)
 {
-    xx = z[5][i];
-    yy = z[4][i];
-    zz = z[3][i];
+    xx = z[5][gli];
+    yy = z[4][gli];
+    zz = z[3][gli];
 
    displayTorus();
 }
@@ -370,13 +319,13 @@ int main (int argc, char **argv)
     rr=ode;
 /////////////////////initial values and step////////////////////////////
     printf("input the ratio of vy and vz (default value is 2): ");
-    scanf_s("%f",&ratio);
+    scanf("%f",&ratio);
 //    printf("%7.2f\n",ratio );
     y[0]=0.0; y[1]=ratio*0.15e6; y[2]=0.15e6; y[3]=0.0;y[4]=0.0;y[5]=0.0;
     t=0.0; h=6e-5/m;
 /////////////////////////////create a date file/////////////////////////
     FILE* fp;
-    fopen_s(&fp, "xyz++.dat", "w");
+    fp = fopen("xyz++.dat", "w");
     if (!fp)
     {
         perror("cannot open file");
@@ -401,27 +350,19 @@ int main (int argc, char **argv)
 ////////////////////////////////animation by OpenGL/////////////////////////////////
 ////////////////////////////////animation by OpenGL/////////////////////////////////
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(1200,1200);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH );
+    glutInitWindowSize(1000,1000);
     glutCreateWindow("Plasma");
     glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+        init();
     glClearColor(0.0,0.0,0.0,0.0);
     //Assign  the function used in events
     glutDisplayFunc(displayTorus);
-    glutReshapeFunc(reshapeTorus);
+    glutReshapeFunc(reshape);
     glutIdleFunc(idleTorus);
-    //Let start glut loop
-    glutIgnoreKeyRepeat(1);
 
-glutKeyboardFunc(processNormalKeys);
-glutSpecialFunc(pressKey);
-glutSpecialUpFunc(releaseKey);
-
-// here are the two new functions
-glutMouseFunc(mouseButton);
-glutMotionFunc(mouseMove);
-// OpenGL init
-glEnable(GL_DEPTH_TEST);
+    glutMouseFunc(Mouse);
+    glutMotionFunc(onMouseMove);
 
     glutMainLoop();
     return 0;
