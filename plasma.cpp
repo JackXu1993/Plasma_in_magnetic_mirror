@@ -170,28 +170,38 @@ void ode(double t ,int n ,double d[] )
 
 /////////////////////////////////////OpenGL functions////////////////////////////////////
 /////////////////////////////////////OpenGL functions////////////////////////////////////
-void sphere(GLfloat radius, int slices, int stacks)
-{
-  glPushMatrix();
-  glColor3f(1.0, 0.0, 0.0);
-  glTranslatef(xx, yy, zz);
-  glutWireSphere(radius, slices, stacks);
-  glPopMatrix();
-}
-
-
 
 void displayTorus(void)
 {
 int i;
+
+GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
+GLfloat mat_ambient[] = { 0.7, 0.7, 0.7, 1.0 };
+GLfloat mat_ambient_color_red[] = { 1.0, 0.0, 0.0, 1.0 };
+GLfloat mat_ambient_color_yel[] = { 1.0, 1.0, 0.0, 1.0 };
+GLfloat mat_ambient_color_blu[] = { 0.0, 0.0, 1.0, 1.0 };
+GLfloat mat_ambient_color_gre[] = { 0.0, 1.0, 0.0, 1.0 };
+GLfloat mat_ambient_color_white[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat mat_diffuse[] = { 0.1, 0.5, 0.8, 1.0 };
+GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat no_shininess[] = { 0.0 };
+GLfloat low_shininess[] = { 5.0 };
+GLfloat high_shininess[] = { 100.0 };
+GLfloat mat_emission[] = {0.3, 0.2, 0.2, 0.0};
+
     glMatrixMode(GL_MODELVIEW);   // clear the drawing buffer.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear the identity matrix.
     glLoadIdentity();
-    gluLookAt(mr*cos(mc*du), mh+0.5, mr*sin(mc*du)+1, 0, 0, 0, 0, 1, 0); //从视点看远点,y轴方向(0,1,0)是上方向
+    gluLookAt(mr*cos(mc*du), mh+1.5, mr*sin(mc*du)+1, 0, 0, 0, 0, 1, 0); //从视点看远点,y轴方向(0,1,0)是上方向
 
     glPushMatrix();
     glTranslatef(1.0,0.0,0.0);
     glColor3f(1.0, 1.0, 0.0);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_yel);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, low_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glRotatef(xRotated,1.0,0.0,0.0);
     glRotatef(yRotated,0.0,1.0,0.0);
     glRotatef(zRotated,0.0,0.0,1.0);
@@ -202,6 +212,11 @@ int i;
     glPushMatrix();
     glTranslatef(-1.0,0.0,0.0);
     glColor3f(1.0, 1.0, 0.0);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_yel);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, low_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
     glRotatef(xRotated,1.0,0.0,0.0);
     glRotatef(yRotated,0.0,1.0,0.0);
     glRotatef(zRotated,0.0,0.0,1.0);
@@ -210,23 +225,9 @@ int i;
     glPopMatrix();
 
     glBegin(GL_LINES);
-    // draw line for x axis
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(1.0, 0.0, 0.0);
-    // draw line for y axis
-    glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 1.0, 0.0);
-    // draw line for Z axis
-    glColor3f(0.0, 0.0, 1.0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 0.0, 1.0);
-    glEnd();
-
-    glBegin(GL_LINES);
     for (i = -10; i <= 10; i++) {
         glColor3f(1.0,1.0,1.0);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_white);
         glVertex3f(10.0,-4.0,i);
         glVertex3f(-10.0,-4.0,i);
     }
@@ -235,6 +236,7 @@ int i;
     glBegin(GL_LINES);
     for (i = -10; i <= 10; i++) {
         glColor3f(1.0,1.0,1.0);
+        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_white);
         glVertex3f(i,-4.0,10.0);
         glVertex3f(i,-4.0,-10.0);
     }
@@ -246,17 +248,66 @@ int i;
 //    glEnd();
 
     glBegin(GL_LINE_STRIP);
-    glColor3f(1.0, 1.0, 1.0);
     for(angle = 0; angle <= gli; angle ++)
       {
       lx = z[5][angle];
       ly = z[4][angle];
       lz = z[3][angle];
+      glColor3f(200, 71, 221);
       glVertex3f(lx, ly, lz);
       }
     glEnd();
 
-    sphere(0.05, 50, 50);
+//    sphere(0.05, 50, 50);
+    glPushMatrix();
+    glColor3f(1.0, 0.0, 0.0);
+    glTranslatef(xx, yy, zz);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, low_shininess);
+    glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+    glutSolidSphere(0.05, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
+    glTranslatef(0.0, 0.0, 1.0);
+    glutSolidCone(0.04, 0.1, 16, 16);
+    glPopMatrix();
+
+    GLUquadricObj *quadratic;
+    quadratic=gluNewQuadric();
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
+    gluCylinder(quadratic, 0.02, 0.02, 1.0, 16, 16);
+    glPopMatrix();
+
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_gre);
+    glRotatef(90,0.0,1.0,0.0);
+    glTranslatef(0.0, 0.0, 1.0);
+    glutSolidCone(0.04, 0.1, 16, 16);
+    glPopMatrix();
+
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_gre);
+    glRotatef(90,0.0,1.0,0.0);
+    gluCylinder(quadratic, 0.02, 0.02, 1.0, 16, 16);
+    glPopMatrix();
+
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_blu);
+    glRotatef(90,-1.0,0.0,0.0);
+    glTranslatef(0.0, 0.0, 1.0);
+    glutSolidCone(0.04, 0.1, 16, 16);
+    glPopMatrix();
+
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_blu);
+    glRotatef(90,-1.0,0.0,0.0);
+    gluCylinder(quadratic, 0.02, 0.02, 1.0, 16, 16);
+    glPopMatrix();
 
     glFlush();
     // sawp buffers called because we are using double buffering
@@ -265,9 +316,26 @@ int i;
 
 /////////////////////////////////////////////////////////////////
 
-void init()
+void init(void)
 {
+    GLfloat ambient[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat position[] = { 0.0, 3.0, 2.0, 0.0 };
+    GLfloat lmodel_ambient[] = { 0.4, 0.4, 0.4, 1.0 };
+    GLfloat local_view[] = { 0.0 };
+
+    glClearColor(0.0, 0.1, 0.1, 0.0);
     glEnable(GL_DEPTH_TEST);
+    glShadeModel(GL_SMOOTH);
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+    glLightModelfv(GL_LIGHT_MODEL_LOCAL_VIEWER, local_view);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
 }
 
 void reshape(int w,int h)
@@ -381,7 +449,7 @@ int main (int argc, char **argv)
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH );
     glutInitWindowSize(1000,1000);
     glutCreateWindow("Plasma");
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+//    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
         init();
     glClearColor(0.0,0.0,0.0,0.0);
     //Assign  the function used in events
