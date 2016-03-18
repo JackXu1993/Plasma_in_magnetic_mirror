@@ -190,4 +190,18 @@ This figure shows the x,y,z coordinate changing with time, which is almost same 
 
 ![C](https://raw.githubusercontent.com/JackXu1993/Plasma_in_magnetic_mirror/master/magnetic_mirror.gif)
 
+#### Setting
+
+##### Run the program
+
+-double click the magnetic_mirror.exe (do not delete the "glut.lib","glut.h",etc in the folder)
+-input the initial values
+-press 'a' to start the animation in the 'plasma' window (not the terminal window)
+-press 's' to stop the animation
+-press the left button and drag it to change the view
+
+#### Parameters
+
+In this program, you can input the ratio of velocity y and velocity z in the terminal window. When this ratio is too small(i.e ratio<1), the electron will escape from the magnetic mirror. Actually, many parameters can be changed. For instance, the initial velocity and position of the electron can also be changed, which will cause different electron trace. You even can change the configuration of the magnetic mirror (i.e the ratio of the distance of the two coils and the radius of the coil), which can change the magnetic field line and the trace. However, I fix these parameters in case the parameters you input do not have physical meanings.
+
 ## Matlab
