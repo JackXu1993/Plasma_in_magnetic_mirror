@@ -195,9 +195,13 @@ This figure shows the x,y,z coordinate changing with time, which is almost same 
 ##### Run the program
 
 -double click the magnetic_mirror.exe (do not delete the "glut.lib","glut.h",etc in the folder)
+
 -input the initial values
+
 -press 'a' to start the animation in the 'plasma' window (not the terminal window)
+
 -press 's' to stop the animation
+
 -press the left button and drag it to change the view
 
 #### Parameters
