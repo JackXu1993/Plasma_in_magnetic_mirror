@@ -171,6 +171,8 @@ This picture shows the configuration of a magnetic bottle. The grey vectors repr
 
 This gif shows the movement of an electron in a magnetic bottle.(Notice the two coils actually are on the z axle, which is different from the picture above. You can see this gif by rotating your head by 90 degree)
 
+#### Preview  
+
 ![Drift](http://ww3.sinaimg.cn/large/0062cUvtgw1f03md0p7z1g306s0c07el.gif)
 
 This figure shows the x,y,z coordinate changing with time.
@@ -184,9 +186,8 @@ This figure shows the x,y,z coordinate changing with time, which is almost same 
 
 ![figure](https://raw.githubusercontent.com/JackXu1993/Plasma_in_magnetic_mirror/master/cxyz.png)
 
-The animation by OpenGl still has a lot to improve.
--The camera
--The trace
--magnetic field
+#### Preview
+
+![C](https://raw.githubusercontent.com/JackXu1993/Plasma_in_magnetic_mirror/master/magnetic_mirror.gif)
 
 ## Matlab
