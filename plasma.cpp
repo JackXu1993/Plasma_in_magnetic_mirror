@@ -309,42 +309,42 @@ GLfloat mat_emission[] = {0.3, 0.2, 0.2, 0.0};
 glPushMatrix();
         for(i = 0; i < linenumber; i ++)
         {
-                    glLineWidth(5.0);
-                    glBegin(GL_LINE_STRIP);
-                for(k = 0; k < step; k ++)
-                {
-                    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
-                      glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
-                    glVertex3f(-xline[i][k],0.0,-zline[i][k]);
-                }
-                        glEnd();
+            glLineWidth(5.0);
+            glBegin(GL_LINE_STRIP);
+            for(k = 0; k < step; k ++)
+            {
+            glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
+            glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
+            glVertex3f(-xline[i][k],0.0,-zline[i][k]);
+            }
+            glEnd();
 
-                        glBegin(GL_LINE_STRIP);
-                    for(k = 0; k < step; k ++)
-                    {
-                        glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
-                          glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
-                        glVertex3f(-xline[i][k],0.0,zline[i][k]);
-                    }
-                            glEnd();
+            glBegin(GL_LINE_STRIP);
+            for(k = 0; k < step; k ++)
+            {
+                glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
+                glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
+                glVertex3f(-xline[i][k],0.0,zline[i][k]);
+            }
+            glEnd()
 
-                            glBegin(GL_LINE_STRIP);
-                        for(k = 0; k < step; k ++)
-                        {
-                            glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
-                              glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
-                            glVertex3f(xline[i][k],0.0,-zline[i][k]);
-                        }
-                                glEnd();
+            glBegin(GL_LINE_STRIP);
+            for(k = 0; k < step; k ++)
+            {
+            glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
+            glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
+            glVertex3f(xline[i][k],0.0,-zline[i][k]);
+            }
+            glEnd();
 
-                                glBegin(GL_LINE_STRIP);
-                            for(k = 0; k < step; k ++)
-                            {
-                                glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
-                                  glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
-                                glVertex3f(xline[i][k],0.0,zline[i][k]);
-                            }
-                                    glEnd();
+            glBegin(GL_LINE_STRIP);
+            for(k = 0; k < step; k ++)
+            {
+            glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient_color_red);
+            glColor4f(1.0f, 1.0f, 1.0f, 0.1f);//颜色0.5 alpha值
+            glVertex3f(xline[i][k],0.0,zline[i][k]);
+            }
+            glEnd();
         }
 glPopMatrix();
 
